@@ -60,7 +60,7 @@ class IoTDevice:
             "fog_key": self.fog_key,
         }
 
-        # save the device information to a file
+        # save the devicea information to a file
         with open(f"{self.device_id}/device_info.json", "w") as f:
             json.dump(device_info, f)
     

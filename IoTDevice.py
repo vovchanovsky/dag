@@ -74,11 +74,7 @@ class IoTDevice:
         # save the private key to a file
         with open(f"{self.device_id}/private.pem", "wb") as f:
             f.write(self.private_key.export_key())
-    def sign_message(self, message):
-        # sign the message with the private key using the pkcs1_15 algorithm
-        h = hashlib.sha256(message.encode())
-        signature = pkcs1_15.new(self.private_key).sign(h)
-        return signature
+
     
     def generate_self_signed_cert(self):
         # create a dictionary with the information to sign
@@ -110,11 +106,12 @@ class IoTDevice:
         with open(certa, 'rb') as f:
             file_contents = f.read()
         encrypted_cert = cipher.encrypt(certa)
+        print
         # send the encrypted certificate to the fog node
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        """sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect(('fog_node_address', 12345)) # replace with actual fog node address and port number
         sock.sendall(encrypted_cert)
-        sock.close()
+        sock.close()"""
 
 
 # example usage

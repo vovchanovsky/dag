@@ -1,0 +1,5 @@
+In this implementation, the verify_certificate method takes in the decrypted certificate and the public key of the device that submitted the certificate. It first calculates the hash of the certificate contents and then verifies the signature using the rsa.verify function from the cryptography library. If the signature is valid, the method returns without raising an exception. Otherwise, it raises a SignatureVerificationError.
+
+If the certificate is valid, the submit_certificate method extracts the identity attributes from the certificate and stores them in the devices dictionary. Note that in this implementation, we assume that the certificate is a JSON object with an attributes field that contains the identity attributes. In a real-world implementation, the format and contents of the certificate may vary depending on the use case.
+
+Overall, this implementation provides a simple way to register devices and verify their self-signed certificates, allowing the fog node to make access control decisions and provide services based on the identity attributes of each device.

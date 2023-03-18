@@ -1,0 +1,5 @@
+This method takes in the device ID and public key as parameters, and generates a registration transaction for the device. The registration transaction is then broadcast to the tangle, and the device information is saved locally.
+
+The generate_registration_info method first constructs the registration transaction by signing the device ID and public key with the fog node's private key. It then calculates the hash of the transaction contents, and returns both the transaction and its hash.
+
+The broadcast_registration_info method selects two tip transactions using the MCMC tip selection algorithm, verifies and resolves conflicts between them, attaches the

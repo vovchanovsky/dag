@@ -1,0 +1,1 @@
+This implementation checks the signature and performs lightweight PoW on the two tip transactions. It then checks for conflicts between the transactions connected to the two tips, both directly and indirectly. If a conflict is found, it re-selects the tips and tries again. If any error occurs during the verification process, it also re-selects the tips and tries again.

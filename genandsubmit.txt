@@ -1,0 +1,7 @@
+This class has three methods:
+
+generate_self_signed_certificate: This method generates a self-signed certificate for a device, using the steps outlined in the earlier message.
+submit_certificate: This method encrypts the device's self-signed certificate using the fog node's public key, and then submits the encrypted certificate to the fog node.
+decrypt_certificate: This method decrypts the encrypted certificate received by the fog node, using its private key.
+You can create an instance of this class by passing in the fog node's public key as a parameter. For example:
+fog_node_public_key = b'-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCA

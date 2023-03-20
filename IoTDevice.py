@@ -11,9 +11,11 @@ import datetime
 from math import log2, floor
 import numpy as np
 import random
+from itertools import combinations
+
 
 fog_nodes = {"fog1": "fog1publickey", "fog2": "fog2publickey", "fog3": "fog3publickey", "fog4": "fog4publickey",
-             "fog5": "fog5publickey"}
+             "fog5": "fog5publickey", "fog6": "fog6publickey", "fog7": "fog7publickey"}
 
 devices = {"device1": "device1publickey", "device2": "device2publickey", "device3": "device3publickey",
            "device4": "device4publickey", "device5": "device5publickey", "device6": "device6publickey",
@@ -27,9 +29,7 @@ def list_to_cube(lst, d):
     cube = np.array(lst).reshape(shape)
     return cube
 
-def ptas(fog_nodes, devices, choosed_device, l=2):
-    dimension = floor(log2(len(fog_nodes)))
-    m = 2**dimension
+def createvecandcube(devices, choosed_device, dimension,l):
     devices_list = list(devices.keys())
     if choosed_device in devices.keys():
         id_list = []
@@ -40,15 +40,47 @@ def ptas(fog_nodes, devices, choosed_device, l=2):
             id_list.append(candidate)
             devices_list.remove(candidate)
         random.shuffle(id_list)
-        print(list_to_cube(id_list, dimension))
+        cube=list_to_cube(id_list, dimension)
+        result = np.where(cube == choosed_device)
         vectors=np.random.randint(2, size=(dimension, l))
-        print(vectors)
+        new_vectors=vectors.copy()
+        for j in range(len(vectors)):
+            i = result[j][0]
+            if vectors[j][i]==1:
+                new_vectors[j][i]=0
+            else:
+                new_vectors[j][i]=1
+        #print(vectors)
+        #print(new_vectors)
+        final_vectors=np.stack((vectors, new_vectors), axis=-1)
+        print(final_vectors)
+        return final_vectors, cube, result
     else:
         print("Device not found")
         return
-    
-ptas(fog_nodes, devices, "device7")
 
+def sendvectors():
+    l = 2
+    dimension = floor(log2(len(fog_nodes)))
+    final_vectors, cube, result=createvecandcube(devices, "device7", dimension, l)
+    fog_list=list(fog_nodes.keys())
+    sender_list=[]
+    for _ in range(2**dimension):
+        fogname = random.choice(fog_list)
+        sender_list.append(fogname)
+        fog_list.remove(fogname)
+    senders_list = list_to_cube(sender_list, dimension)
+    for index, fog_node in np.ndenumerate(senders_list):
+        list_vectors = []
+        for k in range(len(index)):
+            list_vectors.append(final_vectors[k][index[k]].tolist())
+        print (fog_node, list_vectors)
+    #print(final_vectors)
+    print(cube)
+    #print(result)
+    return final_vectors, cube, result
+
+sendvectors()
 
 class IoTDevice:
     def __init__(self, producer, model, serial_number):

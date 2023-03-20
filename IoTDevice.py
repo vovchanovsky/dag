@@ -8,6 +8,47 @@ import socket
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.Hash import SHA256
 import datetime
+from math import log2, floor
+import numpy as np
+import random
+
+fog_nodes = {"fog1": "fog1publickey", "fog2": "fog2publickey", "fog3": "fog3publickey", "fog4": "fog4publickey",
+             "fog5": "fog5publickey"}
+
+devices = {"device1": "device1publickey", "device2": "device2publickey", "device3": "device3publickey",
+           "device4": "device4publickey", "device5": "device5publickey", "device6": "device6publickey",
+            "device7": "device7publickey", "device8": "device8publickey", "device9": "device9publickey",        
+        }
+
+
+def list_to_cube(lst, d):
+    n = len(lst)
+    shape = tuple([int(n**(1/d))]*d)
+    cube = np.array(lst).reshape(shape)
+    return cube
+
+def ptas(fog_nodes, devices, choosed_device, l=2):
+    dimension = floor(log2(len(fog_nodes)))
+    m = 2**dimension
+    devices_list = list(devices.keys())
+    if choosed_device in devices.keys():
+        id_list = []
+        id_list.append(choosed_device)
+        devices_list.remove(choosed_device)
+        for _ in range(l**dimension - 1):
+            candidate = random.choice(devices_list)
+            id_list.append(candidate)
+            devices_list.remove(candidate)
+        random.shuffle(id_list)
+        print(list_to_cube(id_list, dimension))
+        vectors=np.random.randint(2, size=(dimension, l))
+        print(vectors)
+    else:
+        print("Device not found")
+        return
+    
+ptas(fog_nodes, devices, "device7")
+
 
 class IoTDevice:
     def __init__(self, producer, model, serial_number):
@@ -113,10 +154,14 @@ class IoTDevice:
         sock.sendall(encrypted_cert)
         sock.close()"""
 
+    def send_auth_req(self):
+        self.device_id, self.public_key
+        # send the device ID and public key to the fog node
 
 # example usage
-device_a = IoTDevice("Acme Corp.", "Smart Thermostat", "12345")
+"""device_a = IoTDevice("Acme Corp.", "Smart Thermostat", "12345")
 print(f"Device A producer: {device_a.producer}")
 print(f"Device A model: {device_a.model}")
 print(f"Device A serial number: {device_a.serial_number}")
-print(f"Device A ID: {device_a.device_id}")
+print(f"Device A ID: {device_a.device_id}")"""
+

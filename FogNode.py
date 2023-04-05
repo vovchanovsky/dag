@@ -35,7 +35,7 @@ class FogNode:
         cert_info = {
             "device_id": device_id,
             "device_key": device_key,
-            "fog_node": self.fog_node,
+            "fog_node": self.ID,
             "valid_period": str(datetime.datetime.utcnow() + datetime.timedelta(days=30)),
         }
         
@@ -54,3 +54,4 @@ class FogNode:
 
 
 Fog_a = FogNode("Fog1")
+Fog_a.issuepublickey("Device1", "Device1key")

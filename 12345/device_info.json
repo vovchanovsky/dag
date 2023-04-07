@@ -1,0 +1,1 @@
+{"device_id": "b837ce2b653174b605d40e9023b78d12c1c8032f60bab56c743505d39e1442c7", "producer": "Acme Corp.", "model": "Smart Thermostat", "serial_number": "12345", "salt": "094cfec76fe438f4fc227577133f95b7", "fog_node": "fog1", "fog_key": "fog1publickey"}

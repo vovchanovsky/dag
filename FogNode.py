@@ -6,7 +6,17 @@ import base64
 import json
 import datetime
 import socket
+import iota_client
+LOCAL_NODE_URL = "http://20.238.91.195:14265"
 
+
+def proc_req(vector, id_list):
+    for i in range(len(vector)):
+        if vector[i] == 1:
+            print(id_list[i])
+            fetch_from_IOTA(id_list[i])
+
+proc_req([0, 1, 1, 0, 0], ['device5', 'device2', 'device7', 'device3', 'device9'])
 
 class FogNode:
     def __init__(self, id):
@@ -50,8 +60,27 @@ class FogNode:
         # add the signature to the information dictionary
         cert_info["signature"] = base64.b64encode(signature).decode()
         print(cert_info)
+        self.send_to_IOTA(cert_info["device_id"],cert_info)
+    
+    def send_to_IOTA(self, INDEX, msg):
+        # send data to IOTA
+        # create a socket object
+        client = iota_client.Client(nodes_name_password=[[LOCAL_NODE_URL]])
+        message_id_indexation = client.message(index=INDEX, data=str(msg).encode())
+
+        print(f"Message sent!\n http://20.238.91.195:8081/dashboard/explorer/message/{message_id_indexation['message_id']}")
+        print("Copy the ID of your message. You'll need it in the next example.")
+        print(f"Message ID: {message_id_indexation['message_id']}")
         
-
-
-Fog_a = FogNode("Fog1")
-Fog_a.issuepublickey("Device1", "Device1key")
+    
+def fetch_from_IOTA(INDEX):
+    client = iota_client.Client(nodes_name_password=[[LOCAL_NODE_URL]])
+    print(client.get_info())
+    indexmas= client.find_messages([INDEX])
+    for i in indexmas:
+        print(i["message_id"])
+        #message_content = bytes(indexmas[0]['payload']['indexation'][0]['data']).decode()
+        #print(message_content)
+#Fog_a = FogNode("Fog1")
+#Fog_a.issuepublickey("Device1", "device1key")
+#Fog_a.fetch_from_IOTA("Device1")

@@ -2,12 +2,12 @@
 # the node information of the node you are connected to.
 import iota_client
 
-LOCAL_NODE_URL = "http://20.238.91.195:14265"
+LOCAL_NODE_URL = "http://20.238.91.195:14266"
 client = iota_client.Client(nodes_name_password=[[LOCAL_NODE_URL]])
 # Chrysalis testnet node
 print(f'{client.get_info()}')
 
-INDEX = "Chrysalis Python Workshop"
+INDEX = "TestIndex"
 DATA = "Hello World!".encode()
 message_id_indexation = client.message(index=INDEX, data=DATA)
 

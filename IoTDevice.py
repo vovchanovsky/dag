@@ -11,6 +11,8 @@ import datetime
 from math import log2, floor
 import numpy as np
 import random
+from functools import reduce 
+
 
 fog_nodes = {"fog1": "fog1publickey", "fog2": "fog2publickey", "fog3": "fog3publickey", "fog4": "fog4publickey",
              "fog5": "fog5publickey","fog6": "fog6publickey"}
@@ -59,14 +61,6 @@ def read_file(filename):
     with open(filename, "r") as f:
         data = f.read()
     return data
-
-def exclusive_or_string(a, b):
-    return "".join(chr(ord(x) ^ ord(y)) for x, y in zip(a, b))
-
-res=exclusive_or_string(read_file("12345\public.pem"), read_file("td1234\public.pem"))
-print(res)
-res= ((exclusive_or_string(res, read_file("12345\public.pem"))))
-print(res)
 
 class IoTDevice:
     def __init__(self, producer, model, serial_number):
@@ -178,11 +172,10 @@ class IoTDevice:
         # send the device ID and public key to the fog node
 
 # example usage
-"""
+
 device_a = IoTDevice("Acme Corp.", "Walet", "td1234")
 print(f"Device A producer: {device_a.producer}")
 print(f"Device A model: {device_a.model}")
 print(f"Device A serial number: {device_a.serial_number}")
 print(f"Device A ID: {device_a.device_id}")
 device_a.send_to_fog("fog1publickey")
-"""

@@ -1,1 +1,1 @@
-{"device_id": "41d6905bd068f784f8cb858e938c82d9cf6aa4ec93b910c2177c6a2a9195ea30", "producer": "Acme Corp.", "model": "Walet", "serial_number": "td1234", "salt": "f91f0ee6e560ebe0051a3c17683648ba", "fog_node": "fog1", "fog_key": "fog1publickey"}
+{"device_id": "0ced9587ae5de2dae98da418aa5e483332e1a489560ed25b1f21d6a63bb47b79", "producer": "Acme Corp.", "model": "Walet", "serial_number": "td1234", "salt": "1e12633f3073775d5604dbab6cacf7b3", "fog_node": "fog1", "fog_key": "fog1publickey"}

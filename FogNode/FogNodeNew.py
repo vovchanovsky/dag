@@ -104,9 +104,6 @@ def handle_mptas():
     else:
         return jsonify({'status': 'success', 'message': ""})
     result = result.decode("utf-8")
-    # Process the data as needed
-    # ...
-    # Return a response
     return jsonify({'status': 'success', 'message': result})
 
 @app.route('/register_device', methods=['POST'])
